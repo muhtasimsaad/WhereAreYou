@@ -64,8 +64,14 @@
             android:name="com.example.muhta.whereareyou.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name="com.example.muhta.whereareyou.register" />
-        <activity android:name="com.example.muhta.whereareyou.Friends" />
-        <activity android:name="com.example.muhta.whereareyou.settingsN" />
+        <activity
+            android:name="com.example.muhta.whereareyou.Friends"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="com.example.muhta.whereareyou.settingsN"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name="com.example.muhta.whereareyou.noInternet" />
+        <activity android:name="com.example.muhta.whereareyou.tutorial" />
         <activity
             android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
             android:excludeFromRecents="true"

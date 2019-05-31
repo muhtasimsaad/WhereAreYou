@@ -5,13 +5,17 @@ package com.example.muhta.whereareyou;
  */
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,47 +58,43 @@ public class CustomList extends ArrayAdapter<String>{
 
 
     }
+
+
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView;
-        if(!names[position].equals("REQUESTS")){
-            rowView= inflater.inflate(R.layout.list_single, null, true);}
-            else {
-            rowView=inflater.inflate(R.layout.requests, null, true);
-            return  rowView;
-        }
+        View rowView = inflater.inflate(R.layout.list_single, null, true);
+
         TextView txtTitle = (TextView) rowView.findViewById(R.id.textViewName);
         TextView textTime=(TextView)rowView.findViewById(R.id.textViewTime);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView);
-        ImageView imageView2 = (ImageView) rowView.findViewById(R.id.imageView2);
-        ImageView imageView3 = (ImageView) rowView.findViewById(R.id.imageView3);
+        Button imageView2 = (Button) rowView.findViewById(R.id.imageView2);
+        Button imageView3 = (Button) rowView.findViewById(R.id.imageView3);
         imageView3.setVisibility(View.INVISIBLE);
         imageView2.setVisibility(View.INVISIBLE);
 
-        if(imageId[position]==0){imageView.setImageResource(R.drawable.cancelinvert);}
-        if(imageId[position]==1){imageView.setImageResource(R.drawable.ironamn);}
-        if(imageId[position]==2){imageView.setImageResource(R.drawable.logout);}
-        if(imageId[position]==3){imageView.setImageResource(R.drawable.accept);}
-        if(imageId[position]==4){imageView.setImageResource(R.drawable.request);}
-        if(imageId[position]==5){imageView.setImageResource(R.drawable.acceptinvert);}
+        if(imageId[position]==0){imageView.setImageResource(R.drawable.ironman);}
+        if(imageId[position]==1){imageView.setImageResource(R.drawable.spiderman);}
+        if(imageId[position]==2){imageView.setImageResource(R.drawable.captainamerica);}
+        if(imageId[position]==3){imageView.setImageResource(R.drawable.batman);}
+        if(imageId[position]==4){imageView.setImageResource(R.drawable.superman);}
+        if(imageId[position]==5){imageView.setImageResource(R.drawable.flash);}
 
         try{
             if (flag[position]==0){
                 imageView2.setVisibility(View.VISIBLE);
-                imageView2.setImageResource(R.drawable.request);
-                imageView3.setVisibility(View.INVISIBLE);
+                 imageView3.setVisibility(View.INVISIBLE);
                 imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Log.v("ClickDebugging","Requested ->"+position);
                 try {
-                    CallAPI l=new CallAPI(context,context,"");
+                    CallAPI l=new CallAPI(context);
                     Object result = l.execute(
                             "https://us-central1-where-are-you-aa10d.cloudfunctions.net/sendRequst",
                             FirebaseAuth.getInstance().getCurrentUser().getUid()+"_"+uid[position]
-                            , "search").get();
+                            , "").get();
 
 
 
@@ -127,18 +127,73 @@ public class CustomList extends ArrayAdapter<String>{
             //imageView2.setImageResource(R.drawable.ironamn);
             imageView2.setVisibility(View.VISIBLE);
             imageView3.setVisibility(View.INVISIBLE);
-            imageView2.setImageResource(R.drawable.remove);
-            imageView2.setOnClickListener(new View.OnClickListener() {
+            imageView2.setText("-");
+            imageView2.setBackgroundTintList(ContextCompat.getColorStateList(context,R.color.colorAccent));
+
+             imageView2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.v("ClickDebugging","Deleted ->"+position);
 
+
+                    final DatabaseReference mData=FirebaseDatabase.getInstance().getReference()
+                            .child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .child("friendList");
+                    mData.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            String s=(dataSnapshot.getValue().toString().replace(uid[position],""));
+                            s=s.replace("__","_");
+                            Log.v("target22",s);
+                            mData.setValue(s);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                    final DatabaseReference mData2=FirebaseDatabase.getInstance().getReference()
+                            .child("users").child(uid
+                            [position])
+                            .child("friendList");
+                    mData2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            String s=(dataSnapshot.getValue().toString().
+                                    replace(FirebaseAuth.getInstance().getCurrentUser().getUid(),""));
+                            s=s.replace("__","_");
+                            Log.v("target22",s);
+                            mData2.setValue(s);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    Toast.makeText(context,"Friend Removed",Toast.LENGTH_LONG).show();
+
+                    Friends.restart=true;
+
+                    Intent intent=new Intent();
+                    intent.setClass(context, context.getClass());
+                    context.startActivity(intent);
+                    context.finish();
 
 
 
 
 
                 }
+
+
+
+
             });
 
             imageView3.setVisibility(View.INVISIBLE);
@@ -147,9 +202,6 @@ public class CustomList extends ArrayAdapter<String>{
             //Requests
             imageView2.setVisibility(View.VISIBLE);
             imageView3.setVisibility(View.VISIBLE);
-            //imageView2.setImageResource(R.drawable.ironamn);
-            imageView2.setImageResource(R.drawable.accept);
-            imageView3.setImageResource(R.drawable.cancel);
 
 
 
@@ -167,8 +219,8 @@ public class CustomList extends ArrayAdapter<String>{
 
                             String s=(dataSnapshot.getValue().toString().replace(uid[position],""));
                             s=s.replace("__","_");
+                            Log.v("target22",s);
                             mData.setValue(s);
-                            Toast.makeText(context,"Request Removed",Toast.LENGTH_LONG).show();
                         }
 
                         @Override
@@ -185,6 +237,9 @@ public class CustomList extends ArrayAdapter<String>{
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                             mData2.setValue(dataSnapshot.getValue().toString()+uid[position]+"_");
+
+
+
 
                         }
 
@@ -204,6 +259,13 @@ public class CustomList extends ArrayAdapter<String>{
                             mData3.setValue(dataSnapshot.getValue().toString()+
                                     FirebaseAuth.getInstance().getCurrentUser().getUid()+"_");
                             Toast.makeText(context,"Request Approved",Toast.LENGTH_LONG).show();
+
+                            Intent intent=new Intent();
+                            intent.setClass(context, context.getClass());
+                            context.startActivity(intent);
+                            context.finish();
+
+
                         }
 
                         @Override
@@ -229,8 +291,18 @@ public class CustomList extends ArrayAdapter<String>{
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            mData.setValue(dataSnapshot.getValue().toString().replace(uid[position],""));
+                            String s=dataSnapshot.getValue().toString().replace(uid[position],"");
+                            s=s.replace("__","_");
+                            mData.setValue(s);
                             Toast.makeText(context,"Request Removed",Toast.LENGTH_LONG).show();
+
+
+                            Intent intent=new Intent();
+                            intent.setClass(context, context.getClass());
+                            context.startActivity(intent);
+                            context.finish();
+
+
                         }
 
                         @Override
@@ -275,7 +347,7 @@ public class CustomList extends ArrayAdapter<String>{
                  }
         s+="ago";
 
-
+        if(s.equals("ago")){s="";}
 
         textTime.setText(s);
         //imageView.setImageBitmap(imageId[position]);
@@ -285,4 +357,5 @@ public class CustomList extends ArrayAdapter<String>{
 
         return rowView;
     }
+
 }

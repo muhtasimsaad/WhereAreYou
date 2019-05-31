@@ -45,8 +45,14 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".register" />
-        <activity android:name=".Friends" />
-        <activity android:name=".settingsN"></activity>
+        <activity
+            android:name=".Friends"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".settingsN"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".noInternet" />
+        <activity android:name=".tutorial"></activity>
     </application>
 
 </manifest>

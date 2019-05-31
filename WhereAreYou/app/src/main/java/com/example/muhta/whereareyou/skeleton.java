@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 
 public class skeleton {
-    Marker[] markers;
+    ArrayList<marker> markers;
     String username;
-    int shareLocations=-1;
-    int downloadFrequency;
+    int shareLocations=0;
     int uploadFrequency;
+    int notifications=0;
     ArrayList<Friend> frndList = new ArrayList<Friend>();
     int image=-1;
 
@@ -23,14 +23,17 @@ class Friend {
     int image;
     long pictime;
     long time;
+    String notification;
+    boolean notificationEnabled=false;
     String settings;
     Friend(String uid){
         this.UID=uid;
     }
 }
 
-class Marker{
+class marker{
     LatLng latlon;
     String name;
     int image;
+
 }

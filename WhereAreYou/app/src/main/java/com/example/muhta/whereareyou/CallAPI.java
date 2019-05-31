@@ -14,8 +14,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
+import android.widget.ListView;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +34,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -45,12 +49,17 @@ public class CallAPI extends AsyncTask<String,String,String> {
     AlertDialog alertDialog;
     Context contex;
     String asd="";
+
+    Activity v;
     int z=0;
 
 
-    public CallAPI(Context context, Context context1, String s) {
+    public CallAPI(Context context) {
+
         contex=context;
     }
+
+
 
 
     @Override
@@ -60,7 +69,7 @@ public class CallAPI extends AsyncTask<String,String,String> {
 
 
             //conditions here
-
+            Log.v("searchDebug","doInBackground started");
 
             String login_url=params[0];
             String user_name = params[1];
@@ -91,6 +100,7 @@ public class CallAPI extends AsyncTask<String,String,String> {
 
             bufferedWriter.write(post_data);
 
+            Log.v("searchDebug","doInBackground middle");
 
             bufferedWriter.flush();
             bufferedWriter.close();
@@ -108,6 +118,9 @@ public class CallAPI extends AsyncTask<String,String,String> {
             bufferedReader.close();
             inputStream.close();
             httpURLConnection.disconnect();
+
+            Log.v("searchDebug","doInBackground end");
+
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,25 +144,55 @@ public class CallAPI extends AsyncTask<String,String,String> {
         //conditions here
 
         Log.v("asd","---"+result);
+
+
+        try{if(result.contains("null")){
+            Log.v("searchDebug","Returned Null -->"+result);
+            return;}}
+            catch (Exception r ){
+                Log.v("searchDebug","Error Counght -->"+r.getMessage());
+            return;}
+
+
+        if(flag.equals("search")){
+            Log.v("searchDebug",result);
+            Friends.searchQue.add(result);
+
+        }
+
+
         if(flag.equals("downloadSettings")){
+
+
+
             try {
-                String[] tt = result.split("_");
-                Log.v("testFF", tt[0] + "-" + tt[1] + "-" + tt[2]);
+                  //result=result.replace("__","_");
+                String[] arr = result.split("_");
 
+                MapsActivity.main.uploadFrequency = Integer.parseInt(arr[1]);
 
-                MapsActivity.main.uploadFrequency = Integer.parseInt(tt[0]);
-                MapsActivity.main.downloadFrequency = Integer.parseInt(tt[1]);
-                MapsActivity.main.shareLocations = Integer.parseInt(tt[2]);
+                MapsActivity.main.shareLocations = Integer.parseInt(arr[0]);
+
+                MapsActivity.main.notifications = Integer.parseInt(arr[2]);
             }
-            catch (Exception r){}
+            catch (Exception r){  Log.v("testingDownload",""+r.getMessage());}
 
         }
 
         if(flag.equals("downloadMarkers")){
 
 
+            Log.v("markerTesting00","Downloaded Markers");
 
-            if(result.toString().length()<5){return;}
+            ArrayList<marker> arr=new ArrayList<marker>();
+
+            Log.v("markerTesting",result);
+            if(result.toString().length()<15){
+                MapsActivity.markerReady=true;
+                MapsActivity.main.markers=arr;
+                return;
+
+            }
 
             String[] temp=result.toString().split("_");
 
@@ -159,16 +202,15 @@ public class CallAPI extends AsyncTask<String,String,String> {
             String[] imageTemp=temp[3].split(",");
 
 
-
-            Marker[] arr=new Marker[nameTemp.length];
-
-            Log.v("marker2",""+nameTemp[0]);
-
             try{for(int i=0;i<nameTemp.length;i++){
-                arr[i]=new Marker();
-                arr[i].name=nameTemp[i];
-                arr[i].latlon=new LatLng(Double.parseDouble(latTemp[i]),Double.parseDouble(lonTemp[i]));
-                arr[i].image=Integer.parseInt(imageTemp[i]);
+
+                marker m=new marker();
+
+
+                m.name=nameTemp[i];
+                m.latlon=new LatLng(Double.parseDouble(latTemp[i]),Double.parseDouble(lonTemp[i]));
+                m.image=Integer.parseInt(imageTemp[i]);
+                arr.add(m);
             }}
             catch (Exception rr){Log.v("marker2",rr.getMessage());}
 
@@ -176,51 +218,48 @@ public class CallAPI extends AsyncTask<String,String,String> {
             MapsActivity.main.markers=arr;
             MapsActivity.markerReady=true;
 
+
         }
 
 
         if(flag.equals("notificationPortal")){
 
-            final String[] arr=result.split("_");
-            DatabaseReference mDatabase=FirebaseDatabase.getInstance().getReference();
-
-
-          for(int i=0;i<arr.length;i++) {
-              Log.v("notpor",arr[i]+"");
-              mDatabase.child("users").child(arr[i]).child("notifications").addValueEventListener(new ValueEventListener() {
-                  @Override
-                  public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                     MapsActivity.que.add(dataSnapshot.getValue()+"");
-
-                  }
-
-                  @Override
-                  public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                  }
-              });
-          }
+//            final String[] arr=result.split("_");
+//            DatabaseReference mDatabase=FirebaseDatabase.getInstance().getReference();
+//
+//
+//          for(int i=0;i<arr.length;i++) {
+//              Log.v("notpor",arr[i]+"");
+//              mDatabase.child("users").child(arr[i]).child("notifications").
+//                      addValueEventListener(new ValueEventListener() {
+//                  @Override
+//                  public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    String s= dataSnapshot.getValue().toString().split(" ")[0];
+//                     if(arrayList.contains(s)){MapsActivity.que.add(dataSnapshot.getValue()+"");}
+//                    arrayList.add(s);
+//                  }
+//
+//                  @Override
+//                  public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                  }
+//              });
+//          }
 
         }
 
-        if(flag.equals("downloadFriendList")){
 
-            String[] tt=result.split("_");
-            MapsActivity.main.frndList.clear();
+        if(flag.equals("requests")){
 
-            for(int i=0;i<tt.length;i++){
-                Log.v("testing","string found : "+tt[i]);
-                if(tt[i].length()<12){continue;}
-                Friend f=new Friend(tt[i]);
-                MapsActivity.main.frndList.add(f);
-                Log.v("testing","Friend created in API");
-            }
+            Log.v("requestDebug",result+"");
+            Friends.requestsQue.add(result);
 
-            MapsActivity.createFriendsLocationListener();
+
         }
 
-        if(flag.equals("search")){
+        if(flag.equals("searchdd")){
+
+            Log.v("asdasdasd","asd");
 
 //            if(result.length()!=1){
 //                try{

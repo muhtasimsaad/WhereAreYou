@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_margin="15dp"
+                android:layout_gravity="center"
+                android:textColor="@color/colorTheme"
+
+                android:text="Delete Marker?"
+                android:textAlignment="center"
+                app:backgroundTint="#429a09"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:layout_weight="1"
+                android:layout_margin="15dp"
+                android:layout_gravity="center"
+                android:textColor="@color/colorTheme"
+
+                android:text="No"
+                android:textAlignment="center"
+                 />
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/Yes"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:layout_margin="15dp"
+                android:layout_gravity="center"
+                android:textColor="@color/colorAccent"
+
+                android:text="Yes"
+                android:textAlignment="center"
+                />
+
+
+
+
+        </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

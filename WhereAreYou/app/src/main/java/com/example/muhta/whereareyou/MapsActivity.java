@@ -94,19 +94,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
-    public static String[] notificationReceivers;
-    public static String[] broadcastReceivers;
+    // public static String[] broadcastReceivers;
 
   static   Queue <String> que;
 
+    Long lastUpdated=((System.currentTimeMillis()/1000)-1000);
 
-
-
-
+    boolean addMark=false;
+    static boolean markerShowable=true;
     GPSTracker gps;
     Context context;
     ListView lv;
-    boolean changecamera=true;
+    boolean changeCamera=true;
     SQLiteDatabase db;
     boolean clickable=false;
     Button search;
@@ -117,7 +116,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Button settings;
     LinearLayout layout;
     FirebaseAuth auth;
-    String frndlstStrng="";
     static boolean dataReady=false;
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
@@ -125,7 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     static skeleton main;
     Marker mCurrLocationMarker;
     static boolean markerReady=false;
-
+    static ArrayList<String> arrayList=new ArrayList<String>();
 
     LocationRequest mLocationRequest;
     static private DatabaseReference mDatabase;
@@ -134,167 +132,146 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        if(!isInternetConnected()){
+            showInternetDialog();
+
+
+            Intent i=new Intent(MapsActivity.this,noInternet.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+
+            return;
+
+
+        }
+
+
         main=new skeleton();
+
+        Log.v("ajob","ashse");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         context=MapsActivity.this;
+
+
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             checkLocationPermission();
 
         }
-        que=new Queue<String>() {
-            @Override
-            public boolean add(String s) {
-                showNotification(s);
 
-                 return true;
-            }
-
-            @Override
-            public boolean offer(String s) {
-                return false;
-            }
-
-            @Override
-            public String remove() {
-                return null;
-            }
-
-            @Override
-            public String poll() {
-                return null;
-            }
-
-            @Override
-            public String element() {
-                return null;
-            }
-
-            @Override
-            public String peek() {
-                return null;
-            }
-
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean contains(Object o) {
-                return false;
-            }
-
-            @NonNull
-            @Override
-            public Iterator<String> iterator() {
-                return null;
-            }
-
-            @NonNull
-            @Override
-            public Object[] toArray() {
-                return new Object[0];
-            }
-
-            @NonNull
-            @Override
-            public <T> T[] toArray(@NonNull T[] a) {
-                return null;
-            }
-
-            @Override
-            public boolean remove(Object o) {
-                return false;
-            }
-
-            @Override
-            public boolean containsAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(@NonNull Collection<? extends String> c) {
-                return false;
-            }
-
-            @Override
-            public boolean removeAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean retainAll(@NonNull Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public void clear() {
-
-            }
-        };
+       initializeQue();
 
 
 
 
-
-        if(!isInternetConnected()){
-            showInternetDialog();
-        }
 
         final FirebaseAuth mAuth= FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
-        try{currentUser.getUid();
+        try {
+            currentUser.getUid();
 
-
+            try{
             mDatabase.child("users").child(currentUser.getUid()).child("username").
                     addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                   // Log.v("testing33",dataSnapshot.getValue().toString());
-                    if(dataSnapshot.getValue().toString().length()<4){
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                        final Dialog dialog = new Dialog(context);
-                        dialog.setContentView(R.layout.dialoglayout);
-                        dialog.setTitle("Change Password");
-                        Button save=(Button)dialog.findViewById(R.id.send);
-                        final EditText ed1=(EditText)dialog.findViewById(R.id.ed1);
-                        final TextView tv2=(TextView) dialog.findViewById(R.id.tv1);
+                           try {
 
-                         save.setOnClickListener(new View.OnClickListener() {
-                             @Override
-                             public void onClick(View v) {
+                               // Log.v("testing33",dataSnapshot.getValue().toString());
+                               if (dataSnapshot.getValue().toString().length() < 4
+                                       || dataSnapshot.getValue().toString().equals("null")) {
 
-                                 if(ed1.getText().toString().length()<4){
+                                   if(tutorial.i!=3){
+                                       Intent ii=new Intent(MapsActivity.this,tutorial.class);
+                                       ii.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                       startActivity(ii);
 
-                                     tv2.setText("Username must be at least 4 characters");
-                                 }
-                                else{
-                                 mDatabase.child("users").child(currentUser.getUid()).child("username").
-                                         setValue(ed1.getText()+"");}
-                            dialog.dismiss();
-                             }
-                         });
+                                   }
 
-                        dialog.show();
-                    }
-                    else {main.username=dataSnapshot.getValue()+"";}
+                                   final Dialog dialog = new Dialog(context);
+                                   dialog.setContentView(R.layout.dialoglayout);
+                                   dialog.setTitle("Change Password");
+                                   dialog.setCancelable(false);
+                                   Button save = (Button) dialog.findViewById(R.id.send);
+                                   final EditText ed1 = (EditText) dialog.findViewById(R.id.ed1);
+                                   final TextView tv2 = (TextView) dialog.findViewById(R.id.tv1);
 
-                }
+                                   save.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                           if (ed1.getText().toString().length() < 4) {
 
-                }
-            });
+                                               tv2.setText("Username must be at least 4 characters");
+                                           } else {
+
+                                               if (ed1.getText().toString().equals("null")) {
+                                                   return;
+                                               }
+
+                                               mDatabase.child("users").child(currentUser.getUid()).child("username").
+                                                       setValue(ed1.getText() + "");
+                                           }
+                                           dialog.dismiss();
+                                       }
+                                   });
+
+                                   dialog.show();
+                               } else {
+                                   main.username = dataSnapshot.getValue() + "";
+                               }
 
 
+                           }
+                           catch (Exception r){
+
+                               final Dialog dialog = new Dialog(context);
+                               dialog.setContentView(R.layout.dialoglayout);
+                               dialog.setTitle("Change Password");
+                               dialog.setCancelable(false);
+                               Button save = (Button) dialog.findViewById(R.id.send);
+                               final EditText ed1 = (EditText) dialog.findViewById(R.id.ed1);
+                               final TextView tv2 = (TextView) dialog.findViewById(R.id.tv1);
+
+                               save.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View v) {
+
+                                       if (ed1.getText().toString().length() < 4) {
+
+                                           tv2.setText("Username must be at least 4 characters");
+                                       } else {
+
+                                           if (ed1.getText().toString().equals("null")) {
+                                               return;
+                                           }
+
+                                           mDatabase.child("users").child(currentUser.getUid()).child("username").
+                                                   setValue(ed1.getText() + "");
+                                       }
+                                       dialog.dismiss();
+                                   }
+                               });
+
+                               dialog.show();
+
+                           }
+
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+        }
+        catch (Exception r){}
         }
         catch (NullPointerException rr){
             Intent i=new Intent(MapsActivity.this,LoginActivity.class);
@@ -302,9 +279,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             startActivity(i);}
 
 
-        try{Log.d("-a-a-a","Broadcast List :"+broadcastReceivers[0]);}
 
-        catch (Exception r){}
         try{auth = FirebaseAuth.getInstance();
             FirebaseUser user = auth.getCurrentUser();
             if (user == null) {
@@ -332,6 +307,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -348,17 +324,106 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+        Log.v("backTesting","ashse");
+
 
 //        CallAPI l = new CallAPI(context, context, "--");
 //        l.execute("updateLocation",  "test", "test2");
-        openNotificationPortal();
-        downloadSettings();
-        downloadFriendList();
-        downloadMarkers();
-        checkLocationPermission();
-        initializeGPS();
-        initializeButtonFunctions();
-        turnListOff();
+        try {
+            openNotificationPortal();
+            downloadSettings();
+            downloadFriendList();
+            downloadMarkers();}
+            catch (Exception r )
+            {
+
+                Intent intent=new Intent(MapsActivity.this,MapsActivity.class);
+                startActivity(intent);
+
+
+            }
+
+
+            downloadMarkers();
+
+
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(final Marker marker) {
+
+
+
+
+
+                    final Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.sure);
+
+                    Button yes=(Button)dialog.findViewById(R.id.Yes);
+                    Button No=(Button)dialog.findViewById(R.id.No);
+
+                    No.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    yes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            marker.remove();
+
+                            for(int i=0;i<main.markers.size();i++) {
+
+                             Log.v("markerTesting00",main.markers.get(i).name);
+
+                            }
+
+                            for(int i=0;i<main.markers.size();i++) {
+
+                                Log.v("markerTesting00","comparing : "+
+                                        marker.getTitle()+"  VS  "+main.markers.get(i).name);
+
+                            if(main.markers.get(i).name.equals(marker.getTitle()))
+                            {
+                                main.markers.remove(i);
+
+                                Log.v("markerTesting00","removed "+i);
+                            }
+
+                            }
+//
+//
+//
+//
+//
+
+                            mDatabase.getDatabase().getReference().child("users").
+                                    child(FirebaseAuth.getInstance().
+                                            getCurrentUser().getUid()).child("markers").
+                                    child(marker.getTitle()+"").removeValue();
+//
+
+
+                            dialog.dismiss();
+
+
+                        }
+                    });
+
+
+
+
+                    dialog.show();
+
+
+                   return true;
+                }
+            });
+            checkLocationPermission();
+            initializeGPS();
+            initializeButtonFunctions();
+            turnListOff();
 
 
 
@@ -368,16 +433,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     private void showMarkers(){
 
-         for(int i=0;i<main.markers.length;i++) {
-            Log.v("marker23",""+main.markers[i].latlon.latitude+"__"+
-                    main.markers[i].latlon.longitude);
-            mMap.addMarker(new MarkerOptions().position(main.markers[i].latlon)
-                    .title(main.markers[i].name)
-                    .icon(bitmapDescriptorFromVector(this,
-                            getMarkerImage(main.markers[i].image))));
-        }
-    }
+    Log.v("markerTesting00","inside Show");
+        Log.v("markerTesting00","Size : "+main.markers.size());
 
+        markerShowable=false;
+
+       try{
+           for(int i=0;i<main.markers.size();i++) {
+
+
+            mMap.addMarker(new MarkerOptions().position(main.markers.get(i).latlon)
+                   .title(main.markers.get(i).name)
+                   .icon(bitmapDescriptorFromVector(this,
+                           getMarkerImage(main.markers.get(i).image))));
+
+
+       }
+
+
+
+        }catch (NullPointerException r){}
+
+
+
+    }
     private void updateNotification(){
 
 
@@ -386,9 +465,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("notifications").
                setValue(checkForNotifications());
     }
-
-
-
     private int getMarkerImage(int i) {
         Log.v("asdasd",""+i);
         if(i==0){return R.drawable.home;}
@@ -398,21 +474,57 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return R.drawable.cancel;
 
     }
-
     private void downloadMarkers() {
-        CallAPI l = new CallAPI(context, context, "--");
+        CallAPI l = new CallAPI(context);
         l.execute("https://us-central1-where-are-you-aa10d.cloudfunctions.net/downloadMarkers",  auth.getCurrentUser().getUid(), "downloadMarkers");
     }
-
     private void downloadFriendList() {
 
 
 
-        CallAPI l = new CallAPI(context, context, "--");
-        l.execute("https://us-central1-where-are-you-aa10d.cloudfunctions.net/downloaFriendList", auth.getUid(), "downloadFriendList");
+        mDatabase.child("users").child(auth.getCurrentUser().getUid()).
+                child("friendList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.v("testingFriends","string found : "+dataSnapshot.toString());
+        try {
+            String[] tt = dataSnapshot.getValue().toString().split("_");
+
+
+            MapsActivity.main.frndList.clear();
+
+            for (int i = 0; i < tt.length; i++) {
+                Log.v("testingFriends", "string found Inside: " + tt[i]);
+                if (tt[i].length() < 12) {
+                    continue;
+                }
+                Friend f = new Friend(tt[i]);
+                MapsActivity.main.frndList.add(f);
+                Log.v("testingFriends", "Friend created in API" + tt[i]);
+            }
+
+            MapsActivity.createFriendsLocationListener();
+        }catch (Exception r){
+
+            Intent intent=new Intent(MapsActivity.this,MapsActivity.class);
+            startActivity(intent);
+
+        }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
 
     }
-
     static void createFriendsLocationListener() {
 
 
@@ -458,9 +570,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Log.v("phase3", "Data -> " + dataSnapshot.toString());
+                    Log.v("phase3", "Data -> " + main.frndList.size());
                      for (int i=0;i<main.frndList.size();i++) {
                         if(main.frndList.get(i).UID.equals(dataSnapshot.child("uid").getValue()+"")) {
-                            Log.v("testing","Lat  -->"+dataSnapshot.child("lat").getValue()+"");double lat = Double.parseDouble(dataSnapshot.child("lat").getValue() + "");
+                            Log.v("testing000","Lat  -->"+dataSnapshot.child("lat").getValue()+"");double lat = Double.parseDouble(dataSnapshot.child("lat").getValue() + "");
                             double lon = Double.parseDouble(dataSnapshot.child("lon").getValue() + "");
                             long time = Long.parseLong(dataSnapshot.child("time").getValue() + "");
                             main.frndList.get(i).latlon = new LatLng(lat, lon);
@@ -481,17 +594,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             });
         }
     }
-
-
     private void downloadSettings() {
 
-        CallAPI l = new CallAPI(context, context, "--");
-        l.execute("https://us-central1-where-are-you-aa10d.cloudfunctions.net/downloadSettings",  auth.getUid(), "downloadSettings");
+        CallAPI l = new CallAPI(context);
+        l.execute("https://us-central1-where-are-you-aa10d.cloudfunctions.net/downloadSettings",
+                auth.getUid(), "downloadSettings");
 
 
 
     }
-
     private void initializeButtonFunctions(){
 
 
@@ -553,98 +664,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View view) {
                 if(!clickable){turnOpacityOn();return;}
 
-                final Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.markercustom);
-                dialog.setTitle("Custom List");
-                Button save=(Button)dialog.findViewById(R.id.markerSave);
-                Button cancel=(Button)dialog.findViewById(R.id.markerCancel);
-                final EditText ed=(EditText)dialog.findViewById(R.id.markerName);
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.cancel();
-                    }
-                });
 
-                final ImageView iv1=(ImageView)dialog.findViewById(R.id.imageView1);
-                final ImageView iv2=(ImageView)dialog.findViewById(R.id.imageView2);
-                final ImageView iv3=(ImageView)dialog.findViewById(R.id.imageView3);
+                Toast.makeText(getApplicationContext(),
+                        "Click on the map to add a marker",Toast.LENGTH_LONG).show();
 
-                markerSelector=1;
-                iv1.setImageAlpha(255);
-                iv2.setImageAlpha(128);
-                iv3.setImageAlpha(128);
+                turnListOff();
+                clickable=false;
 
+                addMark=true;
 
-                iv1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        iv1.setImageAlpha(255);
-                        iv2.setImageAlpha(128);
-                        iv3.setImageAlpha(128);
-                        markerSelector=1;
-                    }
-                });
-
-                iv2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        iv1.setImageAlpha(128);
-                        iv2.setImageAlpha(255);
-                        iv3.setImageAlpha(128);
-                        markerSelector=2;
-                    }
-                });
-
-                iv3.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        iv1.setImageAlpha(128);
-                        iv2.setImageAlpha(128);
-                        iv3.setImageAlpha(255);
-                        markerSelector=3;
-                    }
-                });
-
-
-                save.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        double lat=mLastLocation.getLatitude();
-                        double lon=mLastLocation.getLongitude();
-
-                        String s=lat+""+lon+"";
-                        s=s.replace(".","");
-                        s=s.replace("-","");
-                        Log.v("marker",lat+"___"+lon);
-                        Log.v("marker",s);
-
-
-                        mDatabase.child("users").child(auth.getCurrentUser().getUid()).
-                                child("markers").child(s).child("name").setValue(ed.getText()+"");
-
-                        mDatabase.child("users").child(auth.getCurrentUser().getUid()).
-                                child("markers").child(s).child("lat").setValue(lat+"");
-
-                        mDatabase.child("users").child(auth.getCurrentUser().getUid()).
-                                child("markers").child(s).child("lon").setValue(lon+"");
-
-                        mDatabase.child("users").child(auth.getCurrentUser().getUid()).
-                                child("markers").child(s).child("image").setValue(markerSelector+"");
-
-                    }
-                });
-
-
-
-
-//
-////                FirebaseDatabase.getInstance().getReference().
-////                        child("Saved Places").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
-////                        child("picUploadTime");
-//
-                dialog.show();
             }
         });
 
@@ -665,6 +693,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 clickable=false;
                 turnListOff();
+               if(addMark){
+                   addMarker(latLng.latitude,latLng.longitude);
+                   addMark=false;
+               }
             }
         });
 
@@ -752,30 +784,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mCurrLocationMarker.remove();
 
         }
-        if(changecamera) {
+        if(changeCamera) {
             CameraUpdate location2 = CameraUpdateFactory.newLatLngZoom(
                     new LatLng(location.getLatitude(), location.getLongitude()), 15);
             mMap.animateCamera(location2);
-        changecamera=false;
+        changeCamera=false;
         }
 
 
 
 
-        mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("location").
-                child("lat").setValue(""+location.getLatitude());
-        mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("location").
-                child("lon").setValue(""+location.getLongitude());
-        mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("location").
-                child("time").setValue(""+(System.currentTimeMillis()/60000));
+
+
+        Log.v("testingTiming","LocationSharing :"+main.shareLocations);
+            if(main.shareLocations==1) {
+                Long l=(System.currentTimeMillis()/1000)-lastUpdated;
+                Log.v("testingTiming","Difference :"+l);
+            if (l>=main.uploadFrequency) {
+                    lastUpdated = System.currentTimeMillis() / 1000;
+                Log.v("testingTiming","updated :"+lastUpdated);
+                    mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("location").
+                            child("lat").setValue("" + location.getLatitude());
+                    mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("location").
+                            child("lon").setValue("" + location.getLongitude());
+                    mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("location").
+                            child("time").setValue("" + (System.currentTimeMillis() / 60000));
+                }
+
+            }
+
+
 
         if(dataReady)refreshMap();
-        if(markerReady){
+
+        if(markerReady && markerShowable){
             showMarkers();
             updateNotification();
         }
-
-
 
     }
 
@@ -946,30 +991,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         accounts.setVisibility(View.GONE);
         settings.setVisibility(View.GONE);
         layout.setVisibility(View.GONE);
+
+       try { if(main.frndList.size()==0){return;}}
+       catch (NullPointerException r){return;}
+
         lv.setVisibility(View.VISIBLE);
-        db = openOrCreateDatabase("whereRU", Context.MODE_PRIVATE, null);
-//        if(dataReady) {
-//
-//            Cursor cr=db.rawQuery("Select * from friends where userID='"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"';",null);
-            String[] names=new String[main.frndList.size()];
-            Long[] times=new Long[main.frndList.size()];
-            int[] images=new int[main.frndList.size()];
-            final Double[] lat=new Double[main.frndList.size()];
-            final Double[] lon=new Double[main.frndList.size()];
+
+
+
+
+         if(dataReady) {
+             Log.v("testingFriends","ashse");
+
+             String[] names = new String[main.frndList.size()];
+            Long[] times = new Long[main.frndList.size()];
+            int[] images = new int[main.frndList.size()];
+            final Double[] lat = new Double[main.frndList.size()];
+            final Double[] lon = new Double[main.frndList.size()];
 //
 //            int counter=0;
-            for (int counter=0;counter<main.frndList.size();counter++){
+            for (int counter = 0; counter < main.frndList.size(); counter++) {
 
-                names[counter]=main.frndList.get(counter).name;
+                names[counter] = main.frndList.get(counter).name;
 
-                times[counter]=main.frndList.get(counter).time;
-                lat[counter]=main.frndList.get(counter).latlon.latitude;
-                lon[counter]=main.frndList.get(counter).latlon.longitude;
-                images[counter]=main.frndList.get(counter).image;
+                times[counter] = main.frndList.get(counter).time;
+                lat[counter] = main.frndList.get(counter).latlon.latitude;
+                lon[counter] = main.frndList.get(counter).latlon.longitude;
+                images[counter] = main.frndList.get(counter).image;
 
             }
-//            downloadUpdateDatabase();
-//
+
+
             CustomList adapter = new CustomList(MapsActivity.this, names, times, images);
 
             lv.setAdapter(adapter);
@@ -981,25 +1033,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                         int position, long id) {
 
 
-                    if(lat[position]!=0 && lon[position]!=0){
+                    if (lat[position] != 0 && lon[position] != 0) {
                         LatLng latLng = new LatLng(lat[position], lon[position]);
                         CameraUpdate location2 = CameraUpdateFactory.newLatLngZoom(latLng, 15);
                         mMap.animateCamera(location2);
                         turnListOff();
 
-                    }
-                    else
-                    {
-                        Toast.makeText(getApplicationContext(),"No location found",Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No location found", Toast.LENGTH_LONG).show();
                         turnListOff();
                     }
 
-                    if(debug){ Toast.makeText(MapsActivity.this, "You Clicked at " +
-                            position, Toast.LENGTH_SHORT).show();}
+
 
                 }
             });
-
+        }
 
     }
     private Bitmap getImage(String uid){
@@ -1037,9 +1086,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (debug) Toast.makeText(getApplicationContext(),
                     "Reading database to create markers", Toast.LENGTH_LONG).show();
 
+        mMap.clear();
 
-
-        String id = auth.getCurrentUser().getUid() + "";
         LatLng[] lats = new LatLng[main.frndList.size()];
         String[] names = new String[main.frndList.size()];
         Long[] times = new Long[main.frndList.size()];
@@ -1068,12 +1116,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-        mMap.clear();
 
-        if(markerReady)showMarkers();
+
+
 
         try {
             for (int i = 0; i < lats.length; i++) {
+
+
 
 
                 if (lats[i].latitude != 0 && lats[i].longitude != 0) {
@@ -1081,7 +1131,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .title(names[i])
                             .icon(bitmapDescriptorFromVector(this,
                                     getImage(main.frndList.get(i).image)))
-                    .snippet(times[i] + ""));
+                    .snippet(getTimeString(times[i]) + ""));
                 }
             }
         }
@@ -1160,16 +1210,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     public int getImage(int i){
 
-        if(i==0){return R.drawable.cancelinvert;}
-        if(i==1){return (R.drawable.ironamn);}
-        if(i==2){return (R.drawable.logout);}
-        if(i==3){return (R.drawable.accept);}
-        if(i==4){return (R.drawable.request);}
-        if(i==5){return (R.drawable.acceptinvert);}
+        if(i==0){return R.drawable.ironman;}
+        if(i==1){return (R.drawable.spiderman);}
+        if(i==2){return (R.drawable.captainamerica);}
+        if(i==3){return (R.drawable.batman);}
+        if(i==4){return (R.drawable.superman);}
+        if(i==5){return (R.drawable.flash);}
 
         return R.drawable.cancelinvert;
     }
-
     private double getDistance(LatLng x,LatLng y) {
 
         double lat1=x.latitude;
@@ -1189,22 +1238,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double d = R * c; // Distance in km
         return d*1000;
     }
-
     private double deg2rad(double deg) {
         return deg * (Math.PI/180);
     }
-
     private String checkForNotifications(){
       //  mDatabase.child("users").child(auth.getCurrentUser().getUid()).child("notifications").
         if(!markerReady){return "";}
         String result="";
         LatLng temp=new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
-        for(int i=0;i<main.markers.length;i++){
-            if(getDistance(temp,main.markers[i].latlon)<70){
-                result=main.username+" is at "+main.markers[i].name;
-                break;
+        try {
+            for (int i = 0; i < main.markers.size(); i++) {
+                if (getDistance(temp, main.markers.get(i).latlon) < 70) {
+                    result = main.username + " is at " + main.markers.get(i).name;
+                    break;
+                }
             }
-        }
+        }catch (NullPointerException r){}
 
 
 
@@ -1226,19 +1275,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
 
     }
-
-
     private void openNotificationPortal(){
 
 
-        CallAPI l=new CallAPI(MapsActivity.this,MapsActivity.this,"");
-        l.execute("https://us-central1-where-are-you-aa10d.cloudfunctions.net/notificationPortal",
-                auth.getCurrentUser().getUid(),"notificationPortal");
+//        CallAPI l=new CallAPI(MapsActivity.this,MapsActivity.this,"");
+//        l.execute("https://us-central1-where-are-you-aa10d.cloudfunctions.net/notificationPortal",
+//                auth.getCurrentUser().getUid(),"notificationPortal");
+
+for(int i=0;i<main.frndList.size();i++){
+
+    mDatabase.child("users").child(main.frndList.get(i).UID).child("notifications").addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            String s= dataSnapshot.getValue().toString().split(" ")[0];
+            if(arrayList.contains(s)){MapsActivity.que.add(dataSnapshot.getValue()+"");}
+            arrayList.add(s);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    });
+
+}
+
+
+
 
 
     }
-
-
     public void showNotification(String s) {
 
         que.poll();
@@ -1292,5 +1358,270 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             notificationManager.notify(NOTIFICATION_ID, builder.build());
         }
 
+
+
     }
+    private void addMarker(final double lat,final double lon){
+
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.markercustom);
+        dialog.setTitle("Custom List");
+        Button save=(Button)dialog.findViewById(R.id.markerSave);
+        Button cancel=(Button)dialog.findViewById(R.id.markerCancel);
+        final EditText ed=(EditText)dialog.findViewById(R.id.markerName);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+
+        final ImageView iv1=(ImageView)dialog.findViewById(R.id.imageView1);
+        final ImageView iv2=(ImageView)dialog.findViewById(R.id.imageView2);
+        final ImageView iv3=(ImageView)dialog.findViewById(R.id.imageView3);
+
+        markerSelector=0;
+        iv1.setImageAlpha(255);
+        iv2.setImageAlpha(128);
+        iv3.setImageAlpha(128);
+
+
+        iv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iv1.setImageAlpha(255);
+                iv2.setImageAlpha(128);
+                iv3.setImageAlpha(128);
+                markerSelector=0;
+            }
+        });
+
+        iv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iv1.setImageAlpha(128);
+                iv2.setImageAlpha(255);
+                iv3.setImageAlpha(128);
+                markerSelector=1;
+            }
+        });
+
+        iv3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iv1.setImageAlpha(128);
+                iv2.setImageAlpha(128);
+                iv3.setImageAlpha(255);
+                markerSelector=2;
+            }
+        });
+
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+
+                if(ed.getText().toString().length()<3){
+                    Toast.makeText(getApplicationContext(),"Please insert a name"
+                            ,Toast.LENGTH_LONG).show();
+                    return;
+                }
+                String s=ed.getText()+"";
+                //String s=ed.getText()+"";
+                //Log.v("marker",lat+"___"+lon);
+                // Log.v("marker",s);
+
+
+                mDatabase.child("users").child(auth.getCurrentUser().getUid()).
+                        child("markers").child(s).child("name").setValue(ed.getText()+"");
+
+                mDatabase.child("users").child(auth.getCurrentUser().getUid()).
+                        child("markers").child(s).child("lat").setValue(lat+"");
+
+                mDatabase.child("users").child(auth.getCurrentUser().getUid()).
+                        child("markers").child(s).child("lon").setValue(lon+"");
+
+                mDatabase.child("users").child(auth.getCurrentUser().getUid()).
+                        child("markers").child(s).child("image").setValue(markerSelector+"");
+
+                mDatabase.child("users").child(auth.getCurrentUser().getUid()).
+                        child("markers").child(s).child("key").setValue(s);
+
+
+                marker m = new marker();
+                m.name = ed.getText() + "";
+                m.latlon = new LatLng(lat, lon);
+                m.image = markerSelector;
+
+
+                main.markers.add(m);
+
+
+
+
+                Log.v("markerTesting00",main.markers.size()+"");
+                mMap.addMarker(new MarkerOptions().position(new LatLng(lat,lon))
+                        .title(ed.getText()+"")
+                        .icon(bitmapDescriptorFromVector(context,
+                                getMarkerImage(markerSelector)
+                        )));
+
+
+
+                Log.v("markerTesting","ashse");
+
+
+                dialog.dismiss();
+
+
+            }
+        });
+
+
+
+
+//
+////                FirebaseDatabase.getInstance().getReference().
+////                        child("Saved Places").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).
+////                        child("picUploadTime");
+//
+        dialog.show();
+
+    }
+    private String getTimeString(Long time){
+        String s="";
+        Long temp=(System.currentTimeMillis()/60000)-time;
+        if(temp>60){
+            temp=temp/60;
+            if(temp>24){
+                temp=temp/24;
+                if(temp>30){
+                    temp=temp/30;
+                    if(temp>12){}
+                    else{
+                        s=temp+" month(s) ";
+                    }
+                }
+                else{
+                    s=temp+" day(s) ";
+                }
+            }
+            else {
+                s=temp+" hour(s) ";
+            }
+        }
+        else{
+            s=temp+" minute(s) ";
+        }
+        s+="ago";
+        if(s.equals("ago")){s="";}
+
+return s;
+    }
+    private void initializeQue() {
+
+        que=new Queue<String>() {
+            @Override
+            public boolean add(String s) {
+                if(main.notifications==1) showNotification(s);
+
+                return true;
+            }
+
+            @Override
+            public boolean offer(String s) {
+                return false;
+            }
+
+            @Override
+            public String remove() {
+                return null;
+            }
+
+            @Override
+            public String poll() {
+                return null;
+            }
+
+            @Override
+            public String element() {
+                return null;
+            }
+
+            @Override
+            public String peek() {
+                return null;
+            }
+
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean contains(Object o) {
+                return false;
+            }
+
+            @NonNull
+            @Override
+            public Iterator<String> iterator() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public Object[] toArray() {
+                return new Object[0];
+            }
+
+            @NonNull
+            @Override
+            public <T> T[] toArray(@NonNull T[] a) {
+                return null;
+            }
+
+            @Override
+            public boolean remove(Object o) {
+                return false;
+            }
+
+            @Override
+            public boolean containsAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(@NonNull Collection<? extends String> c) {
+                return false;
+            }
+
+            @Override
+            public boolean removeAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean retainAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public void clear() {
+
+            }
+        };
+
+
+    }
+
+
 }

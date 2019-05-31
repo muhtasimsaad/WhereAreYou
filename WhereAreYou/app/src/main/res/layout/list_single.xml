@@ -56,23 +56,24 @@
         android:layout_marginLeft="30dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/imageView3"
             android:layout_width="42dp"
-            android:layout_height="32dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="4dp"
-            android:src="@drawable/logout"
-            app:srcCompat="@drawable/settings" />
+            android:layout_height="wrap_content"
+            android:text="x"
+            android:textSize="20dp"
+            android:textColor="@color/accent"
+            app:backgroundTint="#fa2867"/>
 
-        <ImageView
+
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/imageView2"
             android:layout_width="42dp"
-            android:layout_height="32dp"
-
-
-            app:srcCompat="@drawable/search" />
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="+"
+            android:textColor="@color/accent"
+            app:backgroundTint="#429a09"/>
 
     </LinearLayout>
 

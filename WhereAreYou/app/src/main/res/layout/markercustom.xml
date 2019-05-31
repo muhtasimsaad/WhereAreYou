@@ -30,19 +30,17 @@
                 android:text="Add Marker"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <EditText
+            <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/markerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-
+                android:inputType="textVisiblePassword|textNoSuggestions"
                 android:hint="Name"
-                android:inputType="text"
+
                 android:maxLines="1"
-                android:shadowColor="@color/common_google_signin_btn_text_dark_focused"
                 android:singleLine="true"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textColorHint="@color/common_google_signin_btn_text_dark_focused" />
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"

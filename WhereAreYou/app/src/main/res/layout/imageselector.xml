@@ -24,21 +24,21 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ironamn"
+                    android:src="@drawable/ironman"
                     android:layout_margin="10dp"
                     android:id="@+id/im1"
                     />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ironamn"
+                    android:src="@drawable/spiderman"
                     android:layout_margin="10dp"
                     android:id="@+id/im2"
                     />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ironamn"
+                    android:src="@drawable/captainamerica"
                     android:layout_margin="10dp"
                     android:id="@+id/im3"
                     />
@@ -56,21 +56,21 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ironamn"
+                    android:src="@drawable/batman"
                     android:layout_margin="10dp"
                     android:id="@+id/im4"
                     />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ironamn"
+                    android:src="@drawable/superman"
                     android:layout_margin="10dp"
                     android:id="@+id/im5"
                     />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ironamn"
+                    android:src="@drawable/flash"
                     android:layout_margin="10dp"
                     android:id="@+id/im6"
                     />

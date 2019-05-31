@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "G:\\new WHere-20190516T004923Z-001\\new WHere\\WhereAreYou\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hi\\values-hi.xml",
+            "outputFile": "C:\\Users\\muhta\\OneDrive\\Documents\\GitHub\\WhereAreYou\\WhereAreYou\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hi\\values-hi.xml",
             "map": [
                 {
                     "source": "C:\\Users\\muhta\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.1.aar\\d6a248401d2fafeeea6a54721109f2b2\\res\\values-hi\\values-hi.xml",

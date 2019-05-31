@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         final FirebaseAuth mAuth= FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         try{
-            currentUser.getUid();
+        currentUser.getUid();
         Intent i=new Intent(LoginActivity.this,MapsActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);

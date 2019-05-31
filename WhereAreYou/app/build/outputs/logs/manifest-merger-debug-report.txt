@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-52:12
-INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-52:12
-INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-52:12
-INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-52:12
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-58:12
+INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-58:12
+INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-58:12
+INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-58:12
 MERGED from [com.android.support:design:27.1.1] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\6418f2dd2072c50b0ce9d7d02050f8a8\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\acd4010aaa131e0e9c019dce9ef01c8b\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:cardview-v7:27.1.1] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\cardview-v7-27.1.1.aar\fa7f04676822d96fee3463b24852c354\AndroidManifest.xml:17:1-22:12
@@ -39,41 +39,41 @@ MERGED from [android.arch.lifecycle:livedata-core:1.1.0] C:\Users\muhta\.gradle\
 MERGED from [android.arch.lifecycle:viewmodel:1.1.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.0.aar\8327b89fc56c08404cd7d8feceb0d98a\AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\09badd0e7b6d93578080434706ff87d6\AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\76ed500edd969a27f3c269eb56c52fcc\AndroidManifest.xml:17:1-22:12
-INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-52:12
-INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-52:12
-INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-52:12
+INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-58:12
+INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-58:12
+INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-58:12
 	package
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:3:5-44
-		INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
-		INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:3:5-44
+		INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-52:12
-		INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-58:12
+		INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-52:12
-		INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:2:1-58:12
+		INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.GET_ACCOUNTS
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:6:5-71
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:6:5-71
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:6:22-68
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:6:22-68
 uses-permission#android.permission.READ_PROFILE
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:7:5-71
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:7:5-71
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:7:22-68
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:7:22-68
 uses-permission#android.permission.READ_CONTACTS
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:8:5-72
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:8:5-72
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:8:22-69
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:8:22-69
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:14:5-79
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:14:5-79
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:14:22-76
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:14:22-76
 application
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:16:5-50:19
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:16:5-56:19
 MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\play-services-location-16.0.0.aar\262797ef23a87b452005406b8a9a36f1\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-location:16.0.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\play-services-location-16.0.0.aar\262797ef23a87b452005406b8a9a36f1\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\play-services-maps-16.0.0.aar\6043538be51bce9d5775dd4018c19288\AndroidManifest.xml:30:5-20
@@ -103,61 +103,73 @@ MERGED from [com.google.android.gms:play-services-stats:16.0.1] C:\Users\muhta\.
 MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\cddbbb7628f7c03db28219cea5a573b8\AndroidManifest.xml:22:5-26:19
 MERGED from [com.google.android.gms:play-services-basement:16.1.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\play-services-basement-16.1.0.aar\cddbbb7628f7c03db28219cea5a573b8\AndroidManifest.xml:22:5-26:19
 	android:supportsRtl
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:21:9-35
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:21:9-35
 	android:label
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:19:9-41
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:19:9-41
 	android:roundIcon
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:20:9-54
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:20:9-54
 	android:icon
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:18:9-43
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:18:9-43
 	android:allowBackup
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:17:9-35
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:17:9-35
 	android:theme
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:22:9-40
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:22:9-40
 activity#com.example.muhta.whereareyou.LoginActivity
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:23:9-31:20
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:23:9-31:20
 	android:label
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:25:13-45
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:25:13-45
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:24:13-42
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:24:13-42
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:26:13-30:29
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:26:13-30:29
 action#android.intent.action.MAIN
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:27:17-69
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:27:17-69
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:27:25-66
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:27:25-66
 category#android.intent.category.LAUNCHER
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:29:17-77
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:29:17-77
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:29:27-74
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:29:27-74
 meta-data#com.google.android.geo.API_KEY
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:40:9-42:55
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:40:9-42:55
 	android:value
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:42:13-52
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:42:13-52
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:41:13-58
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:41:13-58
 activity#com.example.muhta.whereareyou.MapsActivity
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:44:9-46:59
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:44:9-46:59
 	android:label
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:46:13-56
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:46:13-56
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:45:13-41
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:45:13-41
 activity#com.example.muhta.whereareyou.register
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:47:9-46
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:47:9-46
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:47:19-43
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:47:19-43
 activity#com.example.muhta.whereareyou.Friends
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:48:9-45
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:48:9-50:57
+	android:windowSoftInputMode
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:50:13-54
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:48:19-42
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:49:13-36
 activity#com.example.muhta.whereareyou.settingsN
-ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:49:9-56
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:51:9-53:57
+	android:windowSoftInputMode
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:53:13-54
 	android:name
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml:49:19-44
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:52:13-38
+activity#com.example.muhta.whereareyou.noInternet
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:54:9-48
+	android:name
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:54:19-45
+activity#com.example.muhta.whereareyou.tutorial
+ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:55:9-55
+	android:name
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml:55:19-43
 uses-sdk
-INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
-INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
 MERGED from [com.android.support:design:27.1.1] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\6418f2dd2072c50b0ce9d7d02050f8a8\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:design:27.1.1] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\design-27.1.1.aar\6418f2dd2072c50b0ce9d7d02050f8a8\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:appcompat-v7:27.1.1] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\appcompat-v7-27.1.1.aar\acd4010aaa131e0e9c019dce9ef01c8b\AndroidManifest.xml:20:5-44
@@ -228,16 +240,16 @@ MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\muhta\.gradle\caches
 MERGED from [android.arch.lifecycle:runtime:1.1.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\09badd0e7b6d93578080434706ff87d6\AndroidManifest.xml:20:5-44
 MERGED from [android.arch.core:runtime:1.1.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\76ed500edd969a27f3c269eb56c52fcc\AndroidManifest.xml:20:5-44
 MERGED from [android.arch.core:runtime:1.1.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\runtime-1.1.0.aar\76ed500edd969a27f3c269eb56c52fcc\AndroidManifest.xml:20:5-44
-INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
-INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
-		INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
-		ADDED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
-		INJECTED from G:\new WHere-20190516T004923Z-001\new WHere\WhereAreYou\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\muhta\OneDrive\Documents\GitHub\WhereAreYou\WhereAreYou\app\src\main\AndroidManifest.xml
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.android.gms:play-services-maps:16.0.0] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\play-services-maps-16.0.0.aar\6043538be51bce9d5775dd4018c19288\AndroidManifest.xml:23:5-79
 MERGED from [com.google.firebase:firebase-database:16.0.5] C:\Users\muhta\.gradle\caches\transforms-1\files-1.1\firebase-database-16.0.5.aar\cdb9693d32284f45caf979d0fa195545\AndroidManifest.xml:22:5-79

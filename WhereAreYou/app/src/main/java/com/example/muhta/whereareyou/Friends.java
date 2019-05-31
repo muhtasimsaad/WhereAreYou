@@ -2,81 +2,417 @@ package com.example.muhta.whereareyou;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.DrawableRes;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.concurrent.ExecutionException;
+import org.w3c.dom.Text;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Queue;
 
 public class Friends extends AppCompatActivity {
 String[] names;
 Long[] times;
 String[] uid;
 int[] images;
-static String[] namesS;
-static Long[] timesS;
-static String[] uidS;
-int[] imagesS;
-CallAPI l;
+static boolean restart=false;
+Dialog dialogLoading;
+static Queue <String> requestsQue;
+static Queue <String> searchQue;
 ListView lv ;
-    Dialog dialog;
-    static boolean dataReady=false;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(!isInternetConnected()){
+
+
+
+            Intent i=new Intent(Friends.this,noInternet.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(i);
+
+            return;
+
+
+        }
+        dialogLoading= new Dialog(this);
+
         lv= (ListView) findViewById(R.id.ListSearch);
         setContentView(R.layout.activity_friends);
         final EditText search=(EditText)findViewById(R.id.editTextSearch);
         Button send=(Button)findViewById(R.id.buttonSearch);
-        //dataReady=false;
-        dialog = new Dialog(Friends.this);
 
-        dialog.setContentView(R.layout.loading);
-        dialog.setTitle("Downloading Data");
-        ProgressBar pb=(ProgressBar)dialog.findViewById(R.id.progressBar);
-        pb.setProgress(20);
-                dialog.show();
+        TextView rq=(TextView)findViewById(R.id.reque);
+        rq.setVisibility(View.INVISIBLE);
+
         getRequests();
         showFriends();
-        dialog.dismiss();
+
+
+        requestsQue=new Queue<String>() {
+            @Override
+            public boolean add(String s) {
+
+//                try{
+//
+//                    if(s.toString().length()<13){return false;}
+//                }
+//                catch (Exception r){
+//                    return false;}
+
+
+                if(s.length()<15){
+
+                    return  false;}
+
+                TextView rqt=(TextView)findViewById(R.id.reque);
+                rqt.setVisibility(View.VISIBLE);
+
+                Log.v("requestDebug","Requests "+s.toString());
+                String[] temp=s.toString().split("_");
+
+
+                requestsQue.clear();
+
+               String[] names=temp[0].split(",");
+               String[] uids=temp[1].split(",");
+
+               Long[] times=new Long[names.length];
+               int[] images=new int[names.length];
+
+               int[] flags=new int[names.length];
+
+                String[] timesTemp=temp[2].split(",");
+                String[] imageTemp=temp[3].split(",");
+
+                for(int i=0;i<(names.length);i++){
+                        times[i]=Long.parseLong(timesTemp[i]);
+                        images[i]=Integer.parseInt(imageTemp[i]);
+                        flags[i]=3;
+                }
+
+
+                TextView tv=(TextView)findViewById(R.id.reque);
+                tv.setVisibility(View.VISIBLE);
+
+
+                CustomList adapter = new CustomList(Friends.this, names, times, images, uids, flags);
+                lv = (ListView) findViewById(R.id.ListRequest);
+                lv.setAdapter(adapter);
+
+                return false;
+            }
+
+            @Override
+            public boolean offer(String s) {
+                return false;
+            }
+
+            @Override
+            public String remove() {
+                return null;
+            }
+
+            @Override
+            public String poll() {
+                return null;
+            }
+
+            @Override
+            public String element() {
+                return null;
+            }
+
+            @Override
+            public String peek() {
+                return null;
+            }
+
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean contains(Object o) {
+                return false;
+            }
+
+            @NonNull
+            @Override
+            public Iterator<String> iterator() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public Object[] toArray() {
+                return new Object[0];
+            }
+
+            @NonNull
+            @Override
+            public <T> T[] toArray(@NonNull T[] a) {
+                return null;
+            }
+
+            @Override
+            public boolean remove(Object o) {
+                return false;
+            }
+
+            @Override
+            public boolean containsAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(@NonNull Collection<? extends String> c) {
+                return false;
+            }
+
+            @Override
+            public boolean removeAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean retainAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public void clear() {
+
+            }
+        };
 
 
 
+        searchQue= new Queue<String>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean contains(Object o) {
+                return false;
+            }
+
+            @NonNull
+            @Override
+            public Iterator<String> iterator() {
+                return null;
+            }
+
+            @NonNull
+            @Override
+            public Object[] toArray() {
+                return new Object[0];
+            }
+
+            @NonNull
+            @Override
+            public <T> T[] toArray(@NonNull T[] a) {
+                return null;
+            }
+
+            @Override
+            public boolean add(String s) {
+
+
+                endLoading();
+
+                if(s.length()<15){
+                    ListView lv = (ListView) findViewById(R.id.ListSearch);
+                    lv.setAdapter(null);
+                    return false;
+                }
+
+                String[] names = null;
+                Long[] times = null;
+                String[] uid = null;
+                int[] images= null;
+                int[] flags=null;
+
+
+                String[] arr = (s + "").split("_");
+
+                searchQue.clear();
+                names = arr[0].split(",");
+                uid = arr[2].split(",");
+
+
+                times = new Long[names.length];
+                flags = new int[names.length];
+                images = new int[names.length];
+
+
+                //time
+
+                String[] timeTemp = arr[1].split(",");
+                for (int i = 0; i < timeTemp.length; i++) {
+                    times[i] = Long.parseLong(timeTemp[i]);
+                }
+
+
+
+
+                //image
+
+                String[] imageTemp = arr[3].split(",");
+                for (int i = 0; i < names.length; i++) {
+                    images[i] = Integer.parseInt(imageTemp[i]);
+                }
+
+
+                //flags
+                Log.v("phase2", names.length+""+uid.length+""+flags.length);
+
+
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                for (int i = 0; i < names.length; i++) {
+
+
+                    if (uid[i].equals(currentUser.getUid() + "")) {
+                        flags[i] = 1;
+                    }
+
+                    for (int ii = 0; ii < MapsActivity.main.frndList.size(); ii++) {
+
+                        if (uid[i].equals(MapsActivity.main.frndList.get(ii).UID)) {
+                            flags[i] = 1;
+                        }
+
+
+                        {
+                        }
+
+                    }
+
+                }
+
+
+
+
+
+                CustomList adapter = new CustomList(Friends.this, names, times, images, uid, flags);
+                ListView lv = (ListView) findViewById(R.id.ListSearch);
+                lv.setAdapter(adapter);
+
+
+
+
+                return false;
+            }
+
+            @Override
+            public boolean offer(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean remove(Object o) {
+                return false;
+            }
+
+            @Override
+            public boolean containsAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(@NonNull Collection<? extends String> c) {
+                return false;
+            }
+
+            @Override
+            public boolean removeAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean retainAll(@NonNull Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public void clear() {
+
+
+            }
+
+            @Override
+            public String remove() {
+                return null;
+            }
+
+            @Override
+            public String poll() {
+                return null;
+            }
+
+            @Override
+            public String element() {
+                return null;
+            }
+
+            @Override
+            public String peek() {
+                return null;
+            }
+        };
 
 
     send.setOnClickListener(new View.OnClickListener() {
      @Override
          public void onClick(View v) {
             String temp=search.getText()+"";
-           search(temp);
+           Log.v("searchDebug","searching -->"+temp);
+           temp=temp.toLowerCase();
+            if(temp.length()>2){search(temp);
+            showLoading();}
+            else {Toast.makeText(getApplicationContext(),
+                    "Minimum Length : 2",Toast.LENGTH_LONG).show();}
+
 
         }
     });
@@ -101,50 +437,27 @@ ListView lv ;
     }
     private void showFriends(){
         int[] flags;
-        try{
-
-
-        names=new String[MapsActivity.main.frndList.size()+namesS.length];
-        times=new Long[MapsActivity.main.frndList.size()+namesS.length];
-        uid=new String[MapsActivity.main.frndList.size()+namesS.length];
-        flags=new int[MapsActivity.main.frndList.size()+namesS.length];
-        images=new int[names.length];}
-        catch (Exception r ){
-
-            names=new String[MapsActivity.main.frndList.size()];
-            times=new Long[MapsActivity.main.frndList.size()];
-            uid=new String[MapsActivity.main.frndList.size()];
-            flags=new int[MapsActivity.main.frndList.size()];
-            images=new int[names.length];}
 
 
 
+        names=new String[MapsActivity.main.frndList.size()];
+        times=new Long[MapsActivity.main.frndList.size()];
+        uid=new String[MapsActivity.main.frndList.size()];
+        flags=new int[MapsActivity.main.frndList.size()];
+        images=new int[names.length];
 
-        for(int i=0;i<names.length;i++){
-            if(i<MapsActivity.main.frndList.size()){
-                names[i] = MapsActivity.main.frndList.get(i).name;
-                times[i]=MapsActivity.main.frndList.get(i).time;
-                uid[i]=MapsActivity.main.frndList.get(i).UID;
-                images[i]=MapsActivity.main.frndList.get(i).image;
-                flags[i]=2;
-                Log.v("testingDebug2",images[i]+"___"+uid[i]+"___"+flags[i]);
-                }
-            else{
 
-                   try {
-                       names[i] = namesS[i - MapsActivity.main.frndList.size()];
-                       //Log.v("phase2",names[i]);
-                       times[i] = timesS[i - MapsActivity.main.frndList.size()];
-                       uid[i] = uidS[i - MapsActivity.main.frndList.size()];
-                       images[i] = imagesS[i - MapsActivity.main.frndList.size()];
-                       flags[i] = 3;
-                       Log.v("testingDebug3", images[i] + "<-->" + uid[i] + "<-->" + flags[i]);
-                   }
-                   catch (Exception r ){}
-            }
-        }
+        for(int i=0;i<names.length;i++) {
 
-        //int [] flags=new int[names.length];
+            names[i] = MapsActivity.main.frndList.get(i).name;
+            times[i] = MapsActivity.main.frndList.get(i).time;
+            uid[i] = MapsActivity.main.frndList.get(i).UID;
+            images[i] = MapsActivity.main.frndList.get(i).image;
+            flags[i] = 2;
+            Log.v("testingDebug2", images[i] + "___" + uid[i] + "___" + flags[i]);
+
+
+            //int [] flags=new int[names.length];
 
 //        FirebaseAuth mAuth= FirebaseAuth.getInstance();
 //        FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -159,205 +472,58 @@ ListView lv ;
 //        Log.v("tester","uid :"+uid[0]);
 
 
-
-
-        CustomList adapter = new CustomList(Friends.this, names, times, images,uid,flags);
-        lv = (ListView) findViewById(R.id.ListSearch);
-        lv.setAdapter(adapter);
-
-
-
-    }
-
-private void search(final String temp) {
-
-
-    names = null;
-    times = null;
-    uid = null;
-
-    try {
-        lv.setAdapter(null);
-    } catch (Exception r) {
-        Log.v("testfff", r.getMessage());
-    }
-    l = new CallAPI(Friends.this, Friends.this, "--");
-    //names=null;times=null;uid=null;
-    Object result = null;
-    try {
-        result = l.execute(
-                "https://us-central1-where-are-you-aa10d.cloudfunctions.net/searchDatabase", temp
-                , "search").get();
-
-        if (result.toString().length() < 10) {
-            lv.setAdapter(null);
-            return;
-        }
-
-
-        Log.v("phase2", "In Search : Response ->" + result.toString());
-    } catch (Exception r) {
-        Log.v("tester", "Error :" + r.getMessage());
-    }
-
-    String[] arr = (result + "").split("_");
-
-
-    names = arr[0].split(",");
-    times = new Long[names.length];
-    int[] flags = new int[names.length];
-    images = new int[names.length];
-    String[] temp2 = arr[1].split(",");
-    uid = arr[2].split(",");
-    Log.v("phase2", "asd");
-    String[] imageTemp = arr[3].split(",");
-
-    Log.v("phase2", namesS.length + "_");
-    Log.v("phase2", timesS.length + "_");
-    Log.v("phase2", uidS.length + "");
-
-    for (int i = 0; i < names.length; i++) {
-        images[i] = Integer.parseInt(imageTemp[i]);
-    }
-
-
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseUser currentUser = mAuth.getCurrentUser();
-    for (int i = 0; i < names.length; i++) {
-
-
-        if (uid[i].equals(currentUser.getUid() + "")) {
-            flags[i] = 1;
-        }
-
-        for (int ii = 0; ii < MapsActivity.main.frndList.size(); ii++) {
-
-            if (uid[i].equals(MapsActivity.main.frndList.get(ii).UID)) {
-                flags[i] = 1;
-            }
-
-
-            {
-            }
+            CustomList adapter = new CustomList(Friends.this, names, times, images, uid, flags);
+            lv = (ListView) findViewById(R.id.ListSearch);
+            lv.setAdapter(adapter);
 
         }
 
     }
 
-    for (int i = 0; i < temp2.length; i++) {
-        times[i] = Long.parseLong(temp2[i]);
-    }
+private void search (final String temp) {
 
 
-//        Log.v("tester","Names :"+names[0]);
-//        Log.v("tester","times :"+times[0]);
-//        Log.v("tester","uid :"+uid[0]);
 
 
-    try {
+       // lv.setAdapter(null);
 
-        String[] namesF = new String[names.length + namesS.length];
+    CallAPI  l = new CallAPI(Friends.this);
 
-        String[] uidF = new String[uidS.length + uid.length];
-        Long[] timesF = new Long[times.length + timesS.length];
-        int[] flagF = new int[times.length + timesS.length];
-        int[] imageF = new int[times.length + timesS.length];
-
-        for (int i = 0; i < namesF.length; i++) {
-
-            if (i < names.length) {
-                namesF[i] = names[i];
-                timesF[i] = times[i];
-                uidF[i] = uid[i];
-                flagF[i] = flags[i];
-                imageF[i] = images[i];
-            } else {
-                namesF[i] = namesS[i - names.length];
-                timesF[i] = timesS[i - names.length];
-                uidF[i] = uidS[i - names.length];
-                flagF[i] = 3;
-                imageF[i] = imagesS[i - names.length];
-
-            }
+         Log.v("searchDebug","searching -_->"+temp);
+        l.execute("https://us-central1-where-are-you-aa10d.cloudfunctions.net/searchDatabase", temp
+                , "search");
 
 
-        }
 
-
-        CustomList adapter = new CustomList(Friends.this, namesF, timesF, imageF, uidF, flagF);
-        lv = (ListView) findViewById(R.id.ListSearch);
-        lv.setAdapter(adapter);
-
-    }
-    catch (Exception r ){
-
-        CustomList adapter = new CustomList(Friends.this, names, times, images, uid, flags);
-        lv = (ListView) findViewById(R.id.ListSearch);
-        lv.setAdapter(adapter);
-    }
 
 }
 
 
 private String getRequests(){
 
+        Log.v("requestDebug","getting Reuests"+FirebaseAuth.getInstance().getCurrentUser().getUid());
+        CallAPI call=new CallAPI(Friends.this);
 
-        namesS=null;uidS=null;timesS=null;
-
-
-
-        CallAPI call=new CallAPI(Friends.this,Friends.this,"");
-    try {
-        Object result=call.execute("https://us-central1-where-are-you-aa10d.cloudfunctions.net/downloaRequests",
-                FirebaseAuth.getInstance().getCurrentUser().getUid()+"","").get();
-        if(result.toString().length()<13){return "";}
-        Log.v("phase2","Requests "+result.toString());
-        String[] temp=result.toString().split("_");
-
-
-
-
-        String[] namesTemp=temp[0].split(",");
-        namesS=new String[namesTemp.length+1];
-        timesS=new Long[namesS.length];
-        imagesS=new int[namesS.length];
-        uidS=new String[namesS.length];
-
-
-        String[] uidTemp=temp[1].split(",");
-        String[] arr=temp[2].split(",");
-        String[] te=temp[3].split(",");
-
-        for(int i=0;i<(namesS.length+1);i++){
-            if(i!=0){
-                namesS[i]=namesTemp[i-1];
-                uidS[i]=uidTemp[i-1];
-                timesS[i]=Long.parseLong(arr[i-1]);
-                imagesS[i]=Integer.parseInt(te[i-1]);
-            }
-            else {
-                namesS[i]="REQUESTS";
-                uidS[i]="REQUESTS";
-                timesS[i]=Long.parseLong("01");
-                imagesS[i]=9;
-            }
-        }
-
-
-
-        Log.v("phase2","Datase sent :"+namesS[0]+"-"+uidS[0]+"-"+timesS[0]);
-
-    } catch (Exception e) {
-        Log.v("phase2","Error ->"+e.getMessage());
-    }
-
-    Log.v("phase2","Static array Length after populating :"+namesS.length+"");
-
-
-
-
+        call.execute("https://us-central1-where-are-you-aa10d.cloudfunctions.net/downloaRequests",
+                FirebaseAuth.getInstance().getCurrentUser().getUid()+"","requests");
 
     return "";
 }
+    private boolean isInternetConnected() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    private void showLoading(){
 
+        dialogLoading.setContentView(R.layout.showloading);
+        dialogLoading.setCancelable(false);
+        dialogLoading.show();
+    }
+    private void endLoading(){
+
+        dialogLoading.setContentView(R.layout.showloading);
+        dialogLoading.cancel();
+    }
 }

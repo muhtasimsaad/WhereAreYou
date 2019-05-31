@@ -52,7 +52,10 @@ public class register extends AppCompatActivity {
                                              // Sign in success, update UI with the signed-in user's information
                                              //Log.d(TAG, "createUserWithEmail:success");
                                              //FirebaseUser user = mAuth.getCurrentUser();
-                                             Intent i = new Intent(register.this, MapsActivity.class);
+                                             Intent i = new Intent(register.this, LoginActivity.class);
+                                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                             Toast.makeText(register.this, "Authentication Successful.",
+                                                     Toast.LENGTH_SHORT).show();
                                              startActivity(i);
                                              //updateUI(user);
                                          } else {

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "G:\\new WHere-20190516T004923Z-001\\new WHere\\WhereAreYou\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-es\\values-es.xml",
+            "outputFile": "C:\\Users\\muhta\\OneDrive\\Documents\\GitHub\\WhereAreYou\\WhereAreYou\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-es\\values-es.xml",
             "map": [
                 {
                     "source": "C:\\Users\\muhta\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-basement-16.1.0.aar\\cddbbb7628f7c03db28219cea5a573b8\\res\\values-es\\values.xml",
